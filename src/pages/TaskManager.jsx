@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "../styles/TaskManager.css";
-
+import AddTaskModal from "../components/AddTaskModal";
 const TaskManager = () => {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("All");
@@ -37,6 +37,20 @@ const TaskManager = () => {
     setTasks(updatedTasks);
   };
 
+  const addTask = (title, description, priority) => {
+    const newTask = {
+      id: uuidv4(),
+      title,
+      description,
+      priority,
+      status: "incomplete",
+      creationDate: new Date().toISOString(),
+    };
+    const updatedTasks = [...tasks, newTask];
+    saveTasks(updatedTasks);
+    setIsModalOpen(false);
+  };
+
   const toggleTaskStatus = (id) => {
     const updatedTasks = tasks.map((task) =>
       task.id === id
@@ -70,9 +84,24 @@ const TaskManager = () => {
       </div>
 
       <div className="task-filters">
-        <button onClick={() => setFilter("All")}>All</button>
-        <button onClick={() => setFilter("Active")}>Active</button>
-        <button onClick={() => setFilter("Completed")}>Completed</button>
+        <button
+          onClick={() => setFilter("All")}
+          className={filter === "All" ? "btn-active" : ""}
+        >
+          All
+        </button>
+        <button
+          onClick={() => setFilter("Active")}
+          className={filter === "Active" ? "btn-active" : ""}
+        >
+          Active
+        </button>
+        <button
+          onClick={() => setFilter("Completed")}
+          className={filter === "Completed" ? "btn-active" : ""}
+        >
+          Completed
+        </button>
       </div>
 
       <ul className="task-list">
@@ -107,6 +136,10 @@ const TaskManager = () => {
           </li>
         ))}
       </ul>
+
+      {isModalOpen && (
+        <AddTaskModal onClose={() => setIsModalOpen(false)} onAdd={addTask} />
+      )}
     </div>
   );
 };
