@@ -48,7 +48,7 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid username or password" });
     }
     const token = jwt.sign(
-      { id: userExist._id, email: userExist.username },
+      { id: userExist._id, email },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
@@ -60,5 +60,23 @@ export const loginUser = async (req, res) => {
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ message: "Server error during login" });
+  }
+};
+
+export const verifyUser = async (req, res) => {
+  const token = req.header("Authorization");
+  if (!token)
+    return res.status(401).json({ valid: false, message: "No token provided" });
+
+  try {
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(verified);
+    res.json({
+      valid: true,
+      userId: verified.id,
+      email: verified.email,
+    });
+  } catch (err) {
+    res.status(401).json({ valid: false, message: "Invalid token" });
   }
 };
