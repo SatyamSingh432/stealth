@@ -1,9 +1,11 @@
 import "./App.css";
-import LoginRegister from "./pages/LoginRegister";
+// import LoginRegister from "./pages/LoginRegister";
+import TaskManager from "./pages/TaskManager";
 function App() {
   return (
     <>
-      <LoginRegister />
+      <TaskManager />
+      {/* <LoginRegister /> */}
     </>
   );
 }
