@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:8080";
+// const API_URL = "http://localhost:8080";
+const API_URL = "https://stealth-hdum.onrender.com";
 export const loginUser = async (email, password) => {
   const res = await fetch(`${API_URL}/api/auth/login`, {
     method: "POST",
