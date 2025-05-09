@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "../styles/TaskManager.css";
 import AddTaskModal from "../components/AddTaskModal";
+import { useNavigate } from "react-router-dom";
 const TaskManager = () => {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("All");
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     // Dummy data for testing
     const dummyTasks = [
@@ -78,6 +79,16 @@ const TaskManager = () => {
 
   return (
     <div className="task-container">
+      <div>
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            navigate("/");
+          }}
+        >
+          Log out
+        </button>
+      </div>
       <h1 className="task-title">Task Manager</h1>
 
       <div className="task-controls">
