@@ -87,7 +87,7 @@ const LoginRegister = ({ isValid }) => {
                 name="email"
                 required
                 value={user.email}
-                placeholder="user name"
+                placeholder="email"
                 onChange={changeLoginHandler}
                 className="form-input"
               />
@@ -128,7 +128,7 @@ const LoginRegister = ({ isValid }) => {
                 value={userRegister.email}
                 required
                 onChange={changeRegisterHandler}
-                placeholder="user name"
+                placeholder="email"
                 className="form-input"
               />
               <label className="form-label">Password :</label>
