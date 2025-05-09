@@ -27,6 +27,7 @@ const TaskManager = () => {
         creationDate: new Date().toISOString(),
       },
     ];
+
     const storedTasks = JSON.parse(localStorage.getItem("tasks")) || dummyTasks;
     setTasks(storedTasks);
     localStorage.setItem("tasks", JSON.stringify([...storedTasks]));

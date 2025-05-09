@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { verifyToken } from "../src/utils/apis.js";
+import { verifyToken } from "../utils/apis.js";
 
 const useVerifyToken = () => {
   const [isValid, setIsValid] = useState(null);

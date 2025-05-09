@@ -52,7 +52,11 @@ const LoginRegister = ({ isValid }) => {
       navigate("/tasks");
     }
     console.log(user);
+
     setUser({ email: "", password: "" });
+    if (!loggedInUser.login) {
+      alert("wrong email or password");
+    }
   };
 
   const handlerRegister = async (e) => {
