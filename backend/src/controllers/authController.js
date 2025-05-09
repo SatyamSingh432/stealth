@@ -45,14 +45,17 @@ export const loginUser = async (req, res) => {
     }
     const validPassword = await bcrypt.compare(password, userExist.password);
     if (!validPassword) {
-      return res.status(400).json({ message: "Invalid username or password" });
+      return res
+        .status(400)
+        .json({ message: "Invalid username or password", login: false });
     }
     const token = jwt.sign(
       { id: userExist._id, email },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
-    res.status(200).json({
+    return res.status(200).json({
+      login: true,
       message: "Logged In",
       token,
       email,
@@ -65,6 +68,7 @@ export const loginUser = async (req, res) => {
 
 export const verifyUser = async (req, res) => {
   const token = req.header("Authorization");
+  console.log(token);
   if (!token)
     return res.status(401).json({ valid: false, message: "No token provided" });
 

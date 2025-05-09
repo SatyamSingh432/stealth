@@ -1,17 +1,30 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { loginUser, registerUser } from "../utils/apis.js";
+import { useNavigate, Navigate } from "react-router-dom";
+
 import "../styles/LoginRegister.css";
-const LoginRegister = () => {
-  const [newEmployee, setNewEmployee] = useState(true);
+
+const LoginRegister = ({ isValid }) => {
+  const [newUser, setNewUser] = useState(true);
+
   const [user, setUser] = useState({
-    username: "",
+    email: "",
     password: "",
   });
+
   const [userRegister, setUserRegister] = useState({
-    username: "",
+    email: "",
     password: "",
     confirmpassword: "",
   });
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isValid) return;
+
+    navigate("/tasks");
+  }, [isValid, navigate]);
   const changeLoginHandler = (e) => {
     e.preventDefault();
     setUser({
@@ -20,6 +33,7 @@ const LoginRegister = () => {
     });
     console.log(e.target.value);
   };
+
   const changeRegisterHandler = (e) => {
     e.preventDefault();
     setUserRegister({
@@ -27,29 +41,48 @@ const LoginRegister = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const handlerEmployeeLogin = (e) => {
+
+  const handlerLogin = async (e) => {
     e.preventDefault();
+    const { email, password } = user;
+    const loggedInUser = await loginUser(email, password);
+    console.log(loggedInUser);
+    if (loggedInUser.login) {
+      console.log("Navigating....");
+      navigate("/tasks");
+    }
     console.log(user);
-    setUser({ username: "", password: "" });
+    setUser({ email: "", password: "" });
   };
-  const handlerEmployeeRegister = (e) => {
+
+  const handlerRegister = async (e) => {
     e.preventDefault();
+    const { email, password, confirmpassword } = userRegister;
+    if (password !== confirmpassword) {
+      alert("password mismatch");
+      return;
+    }
+    const registeredUser = await registerUser(email, password);
+    if (registeredUser) {
+      navigate("/tasks");
+    }
     console.log(userRegister);
-    setUserRegister({ username: "", password: "", confirmpassword: "" });
+    setUserRegister({ email: "", password: "", confirmpassword: "" });
   };
+
   return (
     <>
       <main className="wel-form-container">
-        {newEmployee ? (
+        {newUser ? (
           <>
             <h2 className="form-title">Login</h2>
-            <form onSubmit={handlerEmployeeLogin} className="admin-login-form">
-              <label className="form-label">User Name :</label>
+            <form onSubmit={handlerLogin} className="admin-login-form">
+              <label className="form-label">Email :</label>
               <input
-                type="text"
-                name="username"
+                type="email"
+                name="email"
                 required
-                value={user.username}
+                value={user.email}
                 placeholder="user name"
                 onChange={changeLoginHandler}
                 className="form-input"
@@ -72,7 +105,7 @@ const LoginRegister = () => {
                 <span
                   className="form-employee-text-span"
                   onClick={() => {
-                    setNewEmployee(false);
+                    setNewUser(false);
                   }}
                 >
                   Register
@@ -83,15 +116,12 @@ const LoginRegister = () => {
         ) : (
           <>
             <h2 className="form-title">Register</h2>
-            <form
-              onSubmit={handlerEmployeeRegister}
-              className="admin-login-form"
-            >
+            <form onSubmit={handlerRegister} className="admin-login-form">
               <label className="form-label">User Name :</label>
               <input
-                type="text"
-                name="username"
-                value={userRegister.username}
+                type="email"
+                name="email"
+                value={userRegister.email}
                 required
                 onChange={changeRegisterHandler}
                 placeholder="user name"
@@ -125,7 +155,7 @@ const LoginRegister = () => {
                 <span
                   className="form-employee-text-span"
                   onClick={() => {
-                    setNewEmployee(true);
+                    setNewUser(true);
                   }}
                 >
                   Login

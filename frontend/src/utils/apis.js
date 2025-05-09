@@ -25,7 +25,7 @@ export const registerUser = async (email, password) => {
 };
 export const verifyToken = async (token) => {
   const res = await fetch(`${API_URL}/api/auth/verify`, {
-    method: "GET",
+    method: "POST",
     headers: { Authorization: token },
   });
   return res.json();
