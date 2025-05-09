@@ -121,7 +121,7 @@ const LoginRegister = ({ isValid }) => {
           <>
             <h2 className="form-title">Register</h2>
             <form onSubmit={handlerRegister} className="admin-login-form">
-              <label className="form-label">User Name :</label>
+              <label className="form-label">Email :</label>
               <input
                 type="email"
                 name="email"
