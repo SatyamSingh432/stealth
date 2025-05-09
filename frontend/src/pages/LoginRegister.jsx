@@ -31,7 +31,7 @@ const LoginRegister = ({ isValid }) => {
       ...user,
       [e.target.name]: e.target.value,
     });
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
 
   const changeRegisterHandler = (e) => {
@@ -46,12 +46,12 @@ const LoginRegister = ({ isValid }) => {
     e.preventDefault();
     const { email, password } = user;
     const loggedInUser = await loginUser(email, password);
-    console.log(loggedInUser);
+    // console.log(loggedInUser);
     if (loggedInUser.login) {
-      console.log("Navigating....");
+      // console.log("Navigating....");
       navigate("/tasks");
     }
-    console.log(user);
+    // console.log(user);
 
     setUser({ email: "", password: "" });
     if (!loggedInUser.login) {
@@ -70,7 +70,7 @@ const LoginRegister = ({ isValid }) => {
     if (registeredUser) {
       navigate("/tasks");
     }
-    console.log(userRegister);
+    // console.log(userRegister);
     setUserRegister({ email: "", password: "", confirmpassword: "" });
   };
 
